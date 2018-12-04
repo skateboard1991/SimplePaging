@@ -1,6 +1,6 @@
 package com.skateboard.newpagingdemo
 
-class PagingDataState {
+class LoadingDataState {
 
     companion object {
 

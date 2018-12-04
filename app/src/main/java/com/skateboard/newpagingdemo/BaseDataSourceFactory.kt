@@ -5,7 +5,7 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 
-abstract class BaseDataSourceFactory<Key, Value>(val pagingDataState: MutableLiveData<Int>) :
+abstract class BaseDataSourceFactory<Key, Value>(val loadingDataState: MutableLiveData<Int>) :
     DataSource.Factory<Key, Value>() {
 
     val source = MutableLiveData<BaseDataSource<Key, Value>>()
@@ -35,7 +35,7 @@ abstract class BaseDataSourceFactory<Key, Value>(val pagingDataState: MutableLiv
             boundaryCallback
         ).build()
 
-        return Listing(pagedList, boundaryCallback.pagingState, pagingDataState, { source.value?.retry }, {
+        return Listing(pagedList, boundaryCallback.pagingState, loadingDataState, { source.value?.retry }, {
             source.value?.invalidate()
         })
     }

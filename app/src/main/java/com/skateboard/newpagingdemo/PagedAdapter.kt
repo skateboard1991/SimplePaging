@@ -2,18 +2,35 @@ package com.skateboard.newpagingdemo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class PagedAdapter : PagedListAdapter<String, ItemViewHolder>(DIFFICULT_CALLBACK) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+class PagedAdapter(val retryMethod: (() -> Unit)?) : BasePagedListAdapter<String>(DIFFICULT_CALLBACK,retryMethod) {
+    override fun getDateItemViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
         return ItemViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+    override fun getErrorItemViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.error_item_layout, parent, false)
+        return ErrorItemViewHolder(itemView)
+    }
 
-        holder.bindContent(getItem(position)?:"")
+    override fun getLoadingItemViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.loading_item_layout, parent, false)
+        return LoadingItemViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (holder is ItemViewHolder) {
+            holder.bindContent(getItem(position) ?: "")
+        } else if (holder is ErrorItemViewHolder) {
+
+            holder.retryBtn.setOnClickListener {
+                retryMethod?.invoke()?:println("retry method is empty")
+            }
+        }
     }
 
     companion object {
@@ -27,8 +44,6 @@ class PagedAdapter : PagedListAdapter<String, ItemViewHolder>(DIFFICULT_CALLBACK
 
                 return oldItem == newItem
             }
-
-
         }
     }
 }
