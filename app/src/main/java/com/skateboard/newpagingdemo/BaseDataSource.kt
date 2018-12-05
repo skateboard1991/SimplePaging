@@ -22,20 +22,21 @@ abstract class BaseDataSource<Key, Value>(val loadingDataState: MutableLiveData<
 
         loadingDataState.postValue(LoadingDataState.LOADING)
         val statusLoadCallback = StatusLoadCallback(loadingDataState, callback)
-        onLoadAfter(params, statusLoadCallback)
         retry = {
             loadAfter(params, callback)
         }
+        onLoadAfter(params, statusLoadCallback)
+
     }
 
     abstract fun onLoadAfter(params: LoadParams<Key>, callback: StatusLoadCallback<Key, Value>)
 
     override fun loadBefore(params: LoadParams<Key>, callback: LoadCallback<Key, Value>) {
         loadingDataState.postValue(LoadingDataState.LOADING)
-        onLoadBefore(params, StatusLoadCallback(loadingDataState, callback))
         retry = {
             loadBefore(params, callback)
         }
+        onLoadBefore(params, StatusLoadCallback(loadingDataState, callback))
     }
 
     abstract fun onLoadBefore(params: LoadParams<Key>, callback: StatusLoadCallback<Key, Value>)

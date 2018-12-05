@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class PagedAdapter(val retryMethod: (() -> Unit)?) : BasePagedListAdapter<String>(DIFFICULT_CALLBACK,retryMethod) {
+class PagedAdapter(retry: (() -> Any?)?) : BasePagedListAdapter<String>(DIFFICULT_CALLBACK,retry) {
     override fun getDateItemViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
         return ItemViewHolder(itemView)
@@ -28,7 +28,7 @@ class PagedAdapter(val retryMethod: (() -> Unit)?) : BasePagedListAdapter<String
         } else if (holder is ErrorItemViewHolder) {
 
             holder.retryBtn.setOnClickListener {
-                retryMethod?.invoke()?:println("retry method is empty")
+                retry?.invoke()?:println("retry method is empty")
             }
         }
     }

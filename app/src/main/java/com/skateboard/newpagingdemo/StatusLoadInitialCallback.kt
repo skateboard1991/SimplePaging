@@ -15,21 +15,21 @@ class StatusLoadInitialCallback<Key, Value>(
         nextPageKey: Key?
     ) {
         callback.onResult(data, position, totalCount, previousPageKey, nextPageKey)
-        if (data.isEmpty()) {
-            loadingDataState.postValue(LoadingDataState.LOADED)
-        }
+//        if (data.isEmpty()) {
+        loadingDataState.postValue(LoadingDataState.LOADED)
+//        }
     }
 
     override fun onResult(data: List<Value>, previousPageKey: Key?, nextPageKey: Key?) {
         callback.onResult(data, previousPageKey, nextPageKey)
-        if (data.isEmpty()) {
-            loadingDataState.postValue(LoadingDataState.LOADED)
-        } else {
+//        if (data.isEmpty()) {
+        loadingDataState.postValue(LoadingDataState.LOADED)
+//        } else {
 
-        }
+//    }
     }
 
-    fun onError(){
+    fun onError() {
 
         loadingDataState.postValue(LoadingDataState.ERROR)
     }

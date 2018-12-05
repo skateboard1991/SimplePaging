@@ -8,8 +8,8 @@ import java.lang.IllegalArgumentException
 import java.lang.RuntimeException
 
 abstract class BasePagedListAdapter<T>(
-    private val diffCallback: DiffUtil.ItemCallback<T>,
-    protected val retry: (() -> Unit)? = null
+    diffCallback: DiffUtil.ItemCallback<T>,
+    var retry: (() -> Any?)? = null
 ) :
     PagedListAdapter<T, RecyclerView.ViewHolder>(diffCallback) {
 

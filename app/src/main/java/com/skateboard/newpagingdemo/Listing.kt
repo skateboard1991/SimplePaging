@@ -10,7 +10,7 @@ class Listing<T>(
     val pagedList: LiveData<PagedList<T>>,
     val pagingState: MutableLiveData<Int>,
     val loadingDataState: MutableLiveData<Int>,
-    val retry: (() -> Unit)? = null,
+    val retry: (() -> Any?)? = null,
     val refresh: (() -> Unit)? = null
 ) {
 

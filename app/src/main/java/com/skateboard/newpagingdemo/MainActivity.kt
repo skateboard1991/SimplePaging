@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.listing.onStateListener = object : SimpleOnStateListener<String>() {
 
             override fun onPagedListLoaded(pagedList: PagedList<String>) {
+                adapter.retry=viewModel.listing.retry
                 adapter.submitList(pagedList)
                 adapter.updateState(LoadingDataState.LOADED)
                 refreshLayout.isRefreshing=false
